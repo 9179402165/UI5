@@ -1,0 +1,72 @@
+<mvc:View controllerName="BinToBinClone.controller.POHeader" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns="sap.m"  xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<App class="sapUI"  >
+		
+			<Page title="{i18n>title}" class = "page">
+				<customHeader>
+					<Bar class="Bar">
+						<contentLeft>
+							<Image id="img1" alt="alttextimage" src="img/logo.jpg" width="15%" height="83%"/>
+							<Image id="img2" alt="alttextimage" src="img/vrline21.jpg" width="3%" height="70%"/>
+							<Text text="{i18n>title}" class="insideBar"></Text>
+						</contentLeft>
+					</Bar>
+				</customHeader>
+				<Panel>
+					<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="2" columnsL="1" columnsM="3" emptySpanL="7" emptySpanM="7" >
+						<f:content>
+							<Label text="{i18n>XFLD_BRNUM}" class="label"></Label>
+							<Input type="Text" id="btnId" change="onClick" class="input"/>
+						</f:content>
+					</f:SimpleForm>
+				</Panel>
+				<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="2"  columnsL="1" columnsM="3" emptySpanL="7" emptySpanM="7"  >
+					<f:content>
+						<Label text="{i18n>XFLD_S_LOC}" class="label"></Label>
+						<TEXT text="{oModel_EMPUpdate>/StorageLocation}" id="strLoc"/>
+						<Label text="{i18n>XFLD_S_BIN}" class="label"></Label>
+						<TEXT text="{oModel_EMPUpdate>/SourceBin}" id="srcBin"/>
+						<Label text="{i18n>XFLD_MATNR}" class="label"></Label>
+						<Text text="{oModel_EMPUpdate>/MaterialNumber}" id="matnr"></Text>
+						<Label text="{i18n>XFLD_BTCH}" class="label"></Label>
+						<Text text="{oModel_EMPUpdate>/BatchNumber}" id="batch"></Text>
+						<Label text="{i18n>XFLD_MES_N}" class="label"></Label>
+						<Text text="{oModel_EMPUpdate>/MESNumber}" id="mesNo"></Text>
+						<Label text="{i18n>XFLD_QUAN}" class="label"></Label>
+						<Input type="Number" value="{oModel_EMPUpdate>/Quantity}" id="quan"></Input>
+						<Text text="{oModel_EMPUpdate>/UOM}" id="UOM"></Text>
+						<Label text="{i18n>XFLD_STC_CAT}" class="label"></Label>
+						<Input type="Text" id="stckCat"  width="66%"></Input>
+						<Label text="{i18n>XFLD_SPL_STCK}" class="label"></Label>
+						<Input type="Text" id="splStk" width="70%">
+							<layoutData>
+								<l:GridData span="L1 M1 S1"></l:GridData>
+							</layoutData>
+						</Input>
+						<Input type="Text" id="splSonum" width="47%">
+							<layoutData>
+								<l:GridData span="L2 M2 S2"></l:GridData>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>XFLD_DSTN_BIN}" class="label"  labelFor="destNoInput" visible = "false" id="destLabel"></Label>
+						<Input id="destNoInput" type="Text" visible = "false" required="true" ></Input>
+					<!--	<Text text="{oModel_EMPUpdate1>/Result}" id="DestRes" visible = "false"></Text> -->
+						<Image id="img3" alt="alttextimage" src="img/right2.jpg" visible = "false" width="20%" height="75%" class="sapUiTinyMargin"/>
+							
+				
+					</f:content>
+				</f:SimpleForm>
+				<footer >
+					<Bar class="footer">
+						<contentRight>
+							<Button id="idClear" icon="sap-icon://undo" text="{i18n>XBUT_CLR}" press="clearDetails" class="sapUiLargeMarginBegin"/>
+							<Button id="idCreate" icon="sap-icon://accept" text="{i18n>XBUT_CREATE}" type="Accept" press="createDetails" class="sapUiLargeMarginBegin"/>
+							<Button id="idMover" icon="sap-icon://accept" text="{i18n>XBUT_MOVE}" type="Accept" press="move" class="sapUiLargeMarginBegin" visible="false"/>
+						</contentRight>
+					</Bar>
+				</footer>
+			</Page>
+	
+	</App>
+</mvc:View>
