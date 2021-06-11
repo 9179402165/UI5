@@ -121,14 +121,20 @@ sap.ui.define([
 				return;
 			}
 			var That = this;
-			this.getOwnerComponent().getModel().read("/DestnCheckSet('" + sId4 + "')", {
+			this.getOwnerComponent().getModel().callFunction("/ValidateDestinationBin", {
+
+				method: "GET",
+				urlParameters: {
+					DestnNum: sId4
+				},
 				success: function(oData2, oResponse2) {
 					var oModel_EMPUpdate1 = new JSONModel();
 					oModel_EMPUpdate1.setData(oData2);
-					var res = oModel_EMPUpdate1.getProperty("/Result");
+					
+					var res = oModel_EMPUpdate1.getProperty("/results/0/Result");
 					//	this.getView().byId("DestRes").setText(res);
 					//this.getView().byId("DestRes").setVisible(true);
-
+				    
 					if (res === "VALID") {
 						this.getView().byId("img3").setVisible(true);
 						this.getView().byId("idCreate").setVisible(false);
