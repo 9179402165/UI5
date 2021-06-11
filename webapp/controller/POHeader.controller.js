@@ -11,9 +11,13 @@ sap.ui.define([
 		onClick: function() {
 			var sId = this.getView().byId("btnId").getValue();
 			if (sId === "" || sId === undefined) {
-				//MessageBox.error("Please Enter BARCODE Number ");
-				var msg = 'Please Enter Barcode Number';
-				MessageToast.show(msg);
+				//MessageBox.error("Please Enter BARCODE Number ");XMSG_ENTER_BARCODE
+				//"{i18n>title}"
+				//this.getView().getModel("i18n").getResourceBundle().getText("notificationChangeAlert");
+				var msg = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_ENTER_BARCODE");
+				MessageToast.show(msg, {
+					width: "25rem"
+				});
 				$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
 			} else {
 				var patt = /\([^)][01]\)+[0-9]+\([^)][0]\)+[0-9]*/g; //REGEX TO MATCH BARCODE
@@ -44,14 +48,14 @@ sap.ui.define([
 						}.bind(this),
 						error: function(oError) {
 							//MessageBox.error("INVALID BARCODE");
-							var msg1 = 'INVALID BARCODE';
+							var msg1 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_INVALID_BARCODE");
 							MessageToast.show(msg1);
 							$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
 						}.bind(this)
 					});
 				} else {
 					//	MessageBox.error("INVALID BARCODE");
-					var msg2 = 'INVALID BARCODE';
+					var msg2 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_INVALID_BARCODE");
 					MessageToast.show(msg2, {
 
 					});
@@ -91,7 +95,7 @@ sap.ui.define([
 			var sId = this.getView().byId("btnId").getValue();
 			if (sId === "" || sId === undefined) {
 				//MessageBox.error("Please Enter BARCODE Number ");
-				var msg2 = 'Please Enter BARCODE Number';
+				var msg2 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_ENTER_BARCODE");
 				MessageToast.show(msg2, {
 					width: "30rem"
 				});
@@ -102,7 +106,7 @@ sap.ui.define([
 			var sId4 = this.getView().byId("destNoInput").getValue();
 			if (sId4 === "" || sId4 === undefined) {
 				//	MessageBox.error("Please Enter DESTINATION Number ");
-				var msg3 = 'Please Enter DESTINATION Number';
+				var msg3 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_ENTER_DESTINATION_NUM");
 				MessageToast.show(msg3, {
 					width: "30rem"
 				});
@@ -113,7 +117,7 @@ sap.ui.define([
 			var sId5 = this.getView().byId("srcBin").getText();
 			if (sId5 === sId4) {
 				//MessageBox.error("SOURCE AND DEST BIN SHOULD BE DIFFERENT");
-				var msg4 = 'SOURCE AND DESTINATION BIN SHOULD BE DIFFERENT';
+				var msg4 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_SOURCE_DESTINATION_DIFF");
 				MessageToast.show(msg4, {
 					width: "30rem"
 				});
@@ -130,11 +134,11 @@ sap.ui.define([
 				success: function(oData2, oResponse2) {
 					var oModel_EMPUpdate1 = new JSONModel();
 					oModel_EMPUpdate1.setData(oData2);
-					
+
 					var res = oModel_EMPUpdate1.getProperty("/results/0/Result");
 					//	this.getView().byId("DestRes").setText(res);
 					//this.getView().byId("DestRes").setVisible(true);
-				    
+
 					if (res === "VALID") {
 						this.getView().byId("img3").setVisible(true);
 						this.getView().byId("idCreate").setVisible(false);
@@ -144,7 +148,7 @@ sap.ui.define([
 				}.bind(this),
 				error: function(oError) {
 
-					var msg5 = 'INVALID DEST NUM';
+					var msg5 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_INVALID_DESTINATION_BIN");
 					MessageToast.show(msg5);
 					$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
 				}.bind(this)
@@ -169,7 +173,9 @@ sap.ui.define([
 
 						var res = oModel_EMPUpdate.getProperty("/Tanum");
 						//MessageBox.success("TRANSFER ORDER " + res + " CREATED");
-						var msg6 = 'TRANSFER ORDER ' + res + ' CREATED';
+						//var msg6 = 'TRANSFER ORDER ' + res + ' CREATED';
+						var msg6 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_TO") + res +
+							this.getView().getModel("i18n").getResourceBundle().getText("XMSG_Created");
 						MessageToast.show(msg6, {
 							width: "25rem"
 						});
