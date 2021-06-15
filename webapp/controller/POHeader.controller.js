@@ -37,6 +37,8 @@ sap.ui.define([
 
 							this.getView().byId("destNoInput").focus();
 							var res = oModel_EMPUpdate.getProperty("/Res");
+							var quantity = oModel_EMPUpdate.getProperty("/Quantity");
+							this.getView().byId("quan").setValue(quantity);
 							if (res.length !== 0) {
 								//MessageBox.error(res);
 								MessageToast.show(res);
@@ -63,6 +65,47 @@ sap.ui.define([
 				}
 
 			}
+		},
+		onQuanChange: function() {
+			var sId = this.getView().byId("btnId").getValue();
+
+			var x = 0;
+			var That = this;
+			this.getOwnerComponent().getModel().read("/BinToBinSet('" + sId + "')", {
+				success: function(oData10, oResponse10) {
+					var oModel_EMPUpdate1 = new JSONModel();
+					oModel_EMPUpdate1.setData(oData10);
+
+					var decimalSep = oModel_EMPUpdate1.getProperty("/Decimal_sep");
+					var thousandSep = oModel_EMPUpdate1.getProperty("/Thousand_sep");
+
+					var quantity = this.getView().byId("quan").getValue();
+
+					jQuery.sap.require("sap.ui.core.format.NumberFormat");
+					var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({
+						maxFractionDigits: 3,
+						groupingEnabled: true,
+						groupingSeparator: thousandSep,
+						decimalSeparator: decimalSep
+					});
+					x = quantity;
+					this.getView().byId("waste").setValue(x);
+					this.getView().byId("quan").setValue(oNumberFormat.format(quantity));
+					jQuery.sap.delayedCall(5, this, function() {
+						this.getView().byId("destNoInput").focus();
+					});
+
+				}.bind(this),
+				error: function(oError) {
+					//MessageBox.error("INVALID BARCODE");
+					var msg1 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_INVALID_BARCODE");
+					MessageToast.show(msg1);
+					$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
+
+				}.bind(this)
+
+			});
+
 		},
 		clearDetails: function() {
 
@@ -154,19 +197,32 @@ sap.ui.define([
 				}.bind(this)
 			});
 		},
+
 		move: function() {
 			var sId = this.getView().byId("btnId").getValue();
 			var sId4 = this.getView().byId("destNoInput").getValue();
 			var sId5 = this.getView().byId("stckCat").getValue();
-			var sId6 = this.getView().byId("quan").getValue();
-			var sId9 = sId6 + 'm';
+			var that = this;
+			//var sId6 = this.getView().byId("quan").getValue();
+			
 
+			var ret = this.getView().byId("waste").getValue();
+			jQuery.sap.require("sap.ui.core.format.NumberFormat");
+			var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({
+				maxFractionDigits: 3,
+				maxIntegerDigits: 10,
+				groupingEnabled: false,
+
+				decimalSeparator: "."
+			});
+			ret = oNumberFormat.format(ret);
+			var sId9 = ret + "m";
+			//MessageBox.success(sId9);
 			var sId7 = this.getView().byId("splSonum").getValue();
 			var sId8 = this.getView().byId("splStk").getValue();
 
-			var That = this;
 			this.getOwnerComponent().getModel().read("/StockMovementSet(Barcode='" + sId + "',DestnNum='" + sId4 + "',Category='" + sId5 +
-				"',Quantity=1.000m,Sonum='" + sId7 + "',Sobkz='" + sId8 + "')", {
+				"',Quantity=" + sId9 + ",Sonum='" + sId7 + "',Sobkz='" + sId8 + "')", {
 					success: function(oData3, oResponse3) {
 						var oModel_EMPUpdate = new JSONModel();
 						oModel_EMPUpdate.setData(oData3);
