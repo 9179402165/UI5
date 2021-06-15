@@ -204,7 +204,6 @@ sap.ui.define([
 			var sId5 = this.getView().byId("stckCat").getValue();
 			var that = this;
 			//var sId6 = this.getView().byId("quan").getValue();
-			
 
 			var ret = this.getView().byId("waste").getValue();
 			jQuery.sap.require("sap.ui.core.format.NumberFormat");
@@ -216,20 +215,29 @@ sap.ui.define([
 				decimalSeparator: "."
 			});
 			ret = oNumberFormat.format(ret);
-			var sId9 = ret + "m";
+			//var sId9 = ret + "m";
 			//MessageBox.success(sId9);
 			var sId7 = this.getView().byId("splSonum").getValue();
 			var sId8 = this.getView().byId("splStk").getValue();
 
-			this.getOwnerComponent().getModel().read("/StockMovementSet(Barcode='" + sId + "',DestnNum='" + sId4 + "',Category='" + sId5 +
-				"',Quantity=" + sId9 + ",Sonum='" + sId7 + "',Sobkz='" + sId8 + "')", {
-					success: function(oData3, oResponse3) {
+			var payLoad = {
+				"Barcode": sId,
+				"DestnNum": sId4,
+				"Category": sId5,
+				"Quantity": ret,
+				"Sonum": sId7,
+				"Sobkz": sId8
+			};
+
+			this.getOwnerComponent().getModel().create("/StockMovementSet", payLoad, {
+				success: function(odata, Response) {
+
+					if (odata !== "" || odata !== undefined) {
+
 						var oModel_EMPUpdate = new JSONModel();
-						oModel_EMPUpdate.setData(oData3);
+						oModel_EMPUpdate.setData(odata);
 
 						var res = oModel_EMPUpdate.getProperty("/Tanum");
-						//MessageBox.success("TRANSFER ORDER " + res + " CREATED");
-						//var msg6 = 'TRANSFER ORDER ' + res + ' CREATED';
 						var msg6 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_TO") + res +
 							this.getView().getModel("i18n").getResourceBundle().getText("XMSG_Created");
 						MessageToast.show(msg6, {
@@ -237,17 +245,23 @@ sap.ui.define([
 						});
 						$(".sapMMessageToast").addClass("sapMMessageToastSuccess ");
 						this.clearDetails();
-					}.bind(this),
-					error: function(oError) {
-						//MessageBox.error("Stock Movement Not Done");
-						var msg6 = 'Stock Movement Not Done';
-						MessageToast.show(msg6, {
+					} else {
+						var msg7 = 'NO TRANSFER ORDER';
+						MessageToast.show(msg7, {
 							width: "30rem"
 						});
 						$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
-					}.bind(this)
-				});
 
+					}
+				}.bind(this),
+				error: function(cc, vv) {
+					var msg6 = 'Stock Movement Not Done';
+					MessageToast.show(msg6, {
+						width: "30rem"
+					});
+					$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
+				}.bind(this)
+			});
 		}
 
 	});
