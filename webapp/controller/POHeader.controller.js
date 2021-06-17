@@ -80,7 +80,7 @@ sap.ui.define([
 					var thousandSep = oModel_EMPUpdate1.getProperty("/Thousand_sep");
 
 					var quantity = this.getView().byId("quan").getValue();
-
+					this.getView().getModel("binModel").setProperty("/bin/quantity", quantity);
 					jQuery.sap.require("sap.ui.core.format.NumberFormat");
 					var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({
 						maxFractionDigits: 3,
@@ -88,9 +88,17 @@ sap.ui.define([
 						groupingSeparator: thousandSep,
 						decimalSeparator: decimalSep
 					});
-					x = quantity;
-					this.getView().byId("waste").setValue(x);
+
 					this.getView().byId("quan").setValue(oNumberFormat.format(quantity));
+					var quanError = this.getView().byId("quan").getValue();
+					
+					if (quanError === "" || quanError === undefined) {
+						var msg = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_INVALID_QUAN");
+						MessageToast.show(msg, {
+							width: "15rem"
+						});
+						$(".sapMMessageToast").addClass("sapMMessageToastDanger ");
+					}
 					jQuery.sap.delayedCall(5, this, function() {
 						this.getView().byId("destNoInput").focus();
 					});
@@ -204,8 +212,12 @@ sap.ui.define([
 			var sId5 = this.getView().byId("stckCat").getValue();
 			var that = this;
 			//var sId6 = this.getView().byId("quan").getValue();
+			//var quanTest = this.getView.getModel().getProperty("/quantity");
+			//MessageBox.success(quanTest);
+			var quan1;
+			quan1 = this.getView().getModel("binModel").getProperty("/bin/quantity");
 
-			var ret = this.getView().byId("waste").getValue();
+			//var ret = this.getView().byId("waste").getValue();
 			jQuery.sap.require("sap.ui.core.format.NumberFormat");
 			var oNumberFormat = sap.ui.core.format.NumberFormat.getFloatInstance({
 				maxFractionDigits: 3,
@@ -214,7 +226,8 @@ sap.ui.define([
 
 				decimalSeparator: "."
 			});
-			ret = oNumberFormat.format(ret);
+			quan1 = oNumberFormat.format(quan1);
+			MessageBox.success(quan1);
 			//var sId9 = ret + "m";
 			//MessageBox.success(sId9);
 			var sId7 = this.getView().byId("splSonum").getValue();
@@ -224,7 +237,7 @@ sap.ui.define([
 				"Barcode": sId,
 				"DestnNum": sId4,
 				"Category": sId5,
-				"Quantity": ret,
+				"Quantity": quan1,
 				"Sonum": sId7,
 				"Sobkz": sId8
 			};

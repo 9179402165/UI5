@@ -34,8 +34,8 @@
 					<Label text="{i18n>XFLD_MES_N}" class="label"></Label>
 					<Text text="{oModel_EMPUpdate>/MESNumber}" id="mesNo"></Text>
 					<Label text="{i18n>XFLD_QUAN}" class="label"></Label>
-					<Input type="Text"  change="onQuanChange" id="quan"></Input>
-					<Text text="{oModel_EMPUpdate>/UOM}" id="UOM"></Text>
+					<Input type="Text"  change="onQuanChange"  id="quan"></Input>
+					<Text text="{oModel_EMPUpdate>/UOM}"  id="UOM"></Text>
 					<Label text="{i18n>XFLD_STC_CAT}" class="label"></Label>
 					<Input type="Text" id="stckCat" width="66%"></Input>
 					<Label text="{i18n>XFLD_SPL_STCK}" class="label"></Label>
@@ -53,8 +53,8 @@
 					<Input id="destNoInput" type="Text" visible="false" required="true"></Input>
 					<!--	<Text text="{oModel_EMPUpdate1>/Result}" id="DestRes" visible = "false"></Text> -->
 					<Image id="img3" alt="alttextimage" src="img/right2.jpg" visible="false" width="20%" height="75%" class="sapUiTinyMargin"/>
-					<Label visible = "false"/>
-					<Input visible = "false" id="waste"></Input>
+					
+					
 				</f:content>
 			</f:SimpleForm>
 			<footer >

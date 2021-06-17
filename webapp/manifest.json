@@ -78,6 +78,10 @@
 				},
 				"dataSource": "YTCS1769865_BIN_TO_BIN_CLONE_SRV",
 				"preload": true
+			},
+			"binModel":{
+				"type": "sap.ui.model.json.JSONModel",
+				"uri" : "model/bintobin.json"
 			}
 		},
 		"resources": {
