@@ -23,21 +23,21 @@ sap.ui.define([
 				var patt = /\([^)][01]\)+[0-9]+\([^)][0]\)+[0-9]*/g; //REGEX TO MATCH BARCODE
 				if (patt.test(sId)) {
 					var That = this;
-					this.getOwnerComponent().getModel().read("/BinToBinSet('" + sId + "')", {
-						success: function(oData1, oResponse1) {
-							var oModel_EMPUpdate = new JSONModel();
-							oModel_EMPUpdate.setData(oData1);
-							That.getView().setModel(oModel_EMPUpdate, "oModel_EMPUpdate");
-							That.getView().getModel("oModel_EMPUpdate").refresh();
+					this.getOwnerComponent().getModel().read("/ZStockMovementCollection('" + sId + "')", {
+						success: function(oData, oResponse) {
+							var oModel = new JSONModel();
+							oModel.setData(oData);
+							That.getView().setModel(oModel, "oModel");
+							That.getView().getModel("oModel").refresh();
 							this.getView().byId("destLabel").setVisible(true);
 							this.getView().byId("destNoInput").setVisible(true);
 							jQuery.sap.delayedCall(200, this, function() {
 								this.getView().byId("destNoInput").focus();
 							});
 
-							this.getView().byId("destNoInput").focus();
-							var res = oModel_EMPUpdate.getProperty("/Res");
-							var quantity = oModel_EMPUpdate.getProperty("/Quantity");
+							//this.getView().byId("destNoInput").focus();
+							var res = oModel.getProperty("/Res");
+							var quantity = oModel.getProperty("/Quantity");
 							this.getView().byId("quan").setValue(quantity);
 							if (res.length !== 0) {
 								//MessageBox.error(res);
@@ -71,13 +71,13 @@ sap.ui.define([
 
 			var x = 0;
 			var That = this;
-			this.getOwnerComponent().getModel().read("/BinToBinSet('" + sId + "')", {
-				success: function(oData10, oResponse10) {
-					var oModel_EMPUpdate1 = new JSONModel();
-					oModel_EMPUpdate1.setData(oData10);
+			this.getOwnerComponent().getModel().read("/ZStockMovementCollection('" + sId + "')", {
+				success: function(oData, oResponse) {
+					var oModel = new JSONModel();
+					oModel.setData(oData);
 
-					var decimalSep = oModel_EMPUpdate1.getProperty("/Decimal_sep");
-					var thousandSep = oModel_EMPUpdate1.getProperty("/Thousand_sep");
+					var decimalSep = oModel.getProperty("/Decimal_sep");
+					var thousandSep = oModel.getProperty("/Thousand_sep");
 
 					var quantity = this.getView().byId("quan").getValue();
 					this.getView().getModel("binModel").setProperty("/bin/quantity", quantity);
@@ -176,17 +176,17 @@ sap.ui.define([
 				return;
 			}
 			var That = this;
-			this.getOwnerComponent().getModel().callFunction("/ValidateDestinationBin", {
+			this.getOwnerComponent().getModel().callFunction("/ZValidateBin", {
 
 				method: "GET",
 				urlParameters: {
 					DestnNum: sId4
 				},
-				success: function(oData2, oResponse2) {
-					var oModel_EMPUpdate1 = new JSONModel();
-					oModel_EMPUpdate1.setData(oData2);
+				success: function(oData, oResponse) {
+					var oModel = new JSONModel();
+					oModel.setData(oData);
 
-					var res = oModel_EMPUpdate1.getProperty("/results/0/Result");
+					var res = oModel.getProperty("/results/0/Valid_DestnNum_Result");
 					//	this.getView().byId("DestRes").setText(res);
 					//this.getView().byId("DestRes").setVisible(true);
 
@@ -242,15 +242,15 @@ sap.ui.define([
 				"Sobkz": sId8
 			};
 
-			this.getOwnerComponent().getModel().create("/StockMovementSet", payLoad, {
+			this.getOwnerComponent().getModel().create("/ZStockMovementCollection", payLoad, {
 				success: function(odata, Response) {
 
 					if (odata !== "" || odata !== undefined) {
 
-						var oModel_EMPUpdate = new JSONModel();
-						oModel_EMPUpdate.setData(odata);
+						var oModel = new JSONModel();
+						oModel.setData(odata);
 
-						var res = oModel_EMPUpdate.getProperty("/Tanum");
+						var res = oModel.getProperty("/Tanum");
 						var msg6 = this.getView().getModel("i18n").getResourceBundle().getText("XMSG_TO") + res +
 							this.getView().getModel("i18n").getResourceBundle().getText("XMSG_Created");
 						MessageToast.show(msg6, {

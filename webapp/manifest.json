@@ -14,12 +14,12 @@
 			"version": "0.0.0"
 		},
 		"dataSources": {
-			"YTCS1769865_BIN_TO_BIN_CLONE_SRV": {
-				"uri": "/sap/opu/odata/sap/YTCS1769865_BIN_TO_BIN_CLONE_SRV/",
+			"ZGW_WM_BIN_TO_BIN010_SRV": {
+				"uri": "/sap/opu/odata/sap/ZGW_WM_BIN_TO_BIN010_SRV/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
-					"localUri": "localService/metadata.xml"
+					"localUri": "localService/ZGW_WM_BIN_TO_BIN010_SRV/metadata.xml"
 				}
 			}
 		}
@@ -39,7 +39,9 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": ["sap_belize_hcb","sap_fiori_3_hcb","sap_fiori_3", "sap_belize" , "sap_platinum" , "sap_goldreflection" , "sap_chrome" , "sap_bluecrystal"]
+		"supportedThemes": ["sap_belize_hcb", "sap_fiori_3_hcb", "sap_fiori_3", "sap_belize", "sap_platinum", "sap_goldreflection", "sap_chrome",
+			"sap_bluecrystal"
+		]
 	},
 	"sap.ui5": {
 		"rootView": {
@@ -76,12 +78,12 @@
 					"defaultBindingMode": "OneTime",
 					"defaultCountMode": "Request"
 				},
-				"dataSource": "YTCS1769865_BIN_TO_BIN_CLONE_SRV",
+				"dataSource": "ZGW_WM_BIN_TO_BIN010_SRV",
 				"preload": true
 			},
-			"binModel":{
+			"binModel": {
 				"type": "sap.ui.model.json.JSONModel",
-				"uri" : "model/bintobin.json"
+				"uri": "model/bintobin.json"
 			}
 		},
 		"resources": {
